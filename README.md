@@ -1,2 +1,9 @@
 ## Transportation Object Detection Web Application
 This web application allows users to upload images and perform object detection on transportation-related objects using a pre-trained model.
+
+# Setup
+1. Clone the Repository
+   \\\
+    git clone <repository-url>
+    cd transportation-object-detection
+   \\\
