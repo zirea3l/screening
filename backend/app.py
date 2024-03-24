@@ -1,24 +1,33 @@
-from flask import Flask, request, jsonify, render_template
-from object_detection import detect_objects_in_image
+from flask import Flask, request, jsonify
+import cv2
+import numpy as np
+import tensorflow as tf
 
 app = Flask(__name__)
 
-# Route to render the upload form
-@app.route('/')
-def upload_form():
-    return render_template('upload_form.html')
+# Load the pre-trained model
+model = tf.saved_model.load('path/to/your/pretrained_model')
 
-# Route to handle image upload and object detection
-@app.route('/detect', methods=['POST'])
-def detect():
-    if 'image' not in request.files:
-        return jsonify({'error': 'No image uploaded'})
+@app.route('/upload', methods=['POST'])
+def upload():
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file part'})
 
-    image = request.files['image']
-    # Process the image and perform object detection
-    detected_objects = detect_objects_in_image(image)
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({'error': 'No selected file'})
 
-    return jsonify({'objects': detected_objects})
+    # Perform object detection
+    image = cv2.imdecode(np.frombuffer(file.read(), np.uint8), cv2.IMREAD_COLOR)
+    image = cv2.resize(image, (300, 300))
+    image = image[np.newaxis, ...]
+    detections = model(image)
+
+    # Process detection results
+    # Your code here to process detections
+
+    # Return detection results
+    return jsonify({'result': 'Detection result'})
 
 if __name__ == '__main__':
     app.run(debug=True)
