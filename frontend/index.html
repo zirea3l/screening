@@ -4,33 +4,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Object Detection</title>
+    <title>Transportation Object Detection</title>
 </head>
 
 <body>
-    <h1>Transportation Image Object Detection</h1>
-    <input type="file" id="fileInput" accept="image/*">
-    <button onclick="uploadImage()">Upload</button>
-    <div id="result"></div>
+    <h1>Transportation Object Detection</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="image" id="imageInput">
+        <button type="submit">Detect Objects</button>
+    </form>
+    <div id="results"></div>
 
     <script>
-        function uploadImage() {
-            const fileInput = document.getElementById('fileInput');
-            const file = fileInput.files[0];
-            const formData = new FormData();
-            formData.append('file', file);
+        document.getElementById('uploadForm').addEventListener('submit', function (e) {
+            e.preventDefault();
 
-            fetch('/upload', {
+            // Get the uploaded image
+            var imageFile = document.getElementById('imageInput').files[0];
+
+            // Check if an image is selected
+            if (!imageFile) {
+                alert('Please select an image.');
+                return;
+            }
+
+            // Create a FormData object and append the image file
+            var formData = new FormData();
+            formData.append('image', imageFile);
+
+            // Send a POST request to the backend
+            fetch('/detect', {
                 method: 'POST',
                 body: formData
             })
                 .then(response => response.json())
                 .then(data => {
-                    // Display detection result
-                    document.getElementById('result').innerHTML = JSON.stringify(data);
+                    // Display the detected objects in the results div
+                    var resultsDiv = document.getElementById('results');
+                    resultsDiv.innerHTML = '<p>Detected Objects: ' + data.objects.join(', ') + '</p>';
                 })
-                .catch(error => console.error('Error:', error));
-        }
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Display an error message if something went wrong
+                    var resultsDiv = document.getElementById('results');
+                    resultsDiv.innerHTML = '<p>An error occurred. Please try again later.</p>';
+                });
+        });
     </script>
 </body>
 
