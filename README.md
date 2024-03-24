@@ -3,10 +3,10 @@ This web application allows users to upload images and perform object detection 
 
 # Setup
 1. Clone the Repository
-   ```
-    git clone <repository-url>
-    cd transportation-object-detection
-   ```
+```
+git clone <repository-url>
+cd transportation-object-detection
+```
 
 2. Install Dependencies
 Ensure you have Python and pip installed on your system. Then, install the required Python dependencies:
