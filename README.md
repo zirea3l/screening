@@ -3,7 +3,7 @@ This web application allows users to upload images and perform object detection 
 
 # Setup
 1. Clone the Repository
-   \\\
+   ```
     git clone <repository-url>
     cd transportation-object-detection
-   \\\
+   ```
