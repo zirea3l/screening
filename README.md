@@ -22,18 +22,11 @@ Model: SSD MobileNet V2
 Label Map: COCO Labels
 Extract the downloaded files and place them in the appropriate directories.
 
-4. Run the Application
+# Running the Application:
 
-```
-python app.py
-```
-The application will start running on http://localhost:5000.
-
-# Usage
-Open your web browser and navigate to http://localhost:5000.
-Click on the "Choose File" button to select an image for object detection.
-Click on the "Detect Objects" button to initiate object detection.
-View the detected objects displayed on the screen.
+Place your pre-trained TensorFlow model in the specified path.
+Run the Flask application by executing python app.py.
+Open index.html in a web browser.
 
 # Testing
 To test the web application, you can use sample images provided in the repository or upload your own images during testing.
